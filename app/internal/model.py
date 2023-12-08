@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Dict, List
+from typing import List
 
 
 class QuizItem(BaseModel):
@@ -15,5 +15,5 @@ class RequestModel(BaseModel):
 class ResponseModel(BaseModel):
     success: bool
     summary: str | None
-    questions: List[QuizItem]
+    questions: List[QuizItem] | None
     message: str
