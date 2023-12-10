@@ -11,8 +11,6 @@ def parse_request_model(request: RequestModel):
     return request.content, request.summaryRequired, request.questionType, request.numberOfQuestions
 
 def get_response_model(summary: str, quiz: list):
-    print_log("OUTPUT", "summary", summary)
-    print_log("OUTPUT", "quiz", quiz)
     return ResponseModel(success=True, summary=summary, questions=quiz, message=SUCCESS_MESSAGE_TEPLATE)
 
 
