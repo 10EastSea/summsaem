@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import APIRouter
 from internal.model import RequestModel, ResponseModel
 from internal.service import *
@@ -12,9 +13,9 @@ async def create_quiz(request: RequestModel) -> ResponseModel:
 
         prompt = make_prompt(content, quiz_type, num_of_quiz)
 
-        # TODO: (MAY) 두 로직 병렬 수행 가능 여부 확인
-        summary = run_summary_with_clova_api(content) if is_summary else None
-        quiz = run_prompt_with_openai_api(prompt)
+        get_summary_task = asyncio.create_task(get_summary(is_summary, content))
+        get_quiz_task = asyncio.create_task(get_quiz(prompt))
+        summary, quiz = await asyncio.gather(get_summary_task, get_quiz_task)
 
         response = get_response_model(summary, quiz)
     except Exception:
