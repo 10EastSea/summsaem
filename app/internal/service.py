@@ -10,8 +10,17 @@ from internal.variables import *
 def parse_request_model(request: RequestModel):
     return request.content, request.summaryRequired, request.questionType, request.numberOfQuestions
 
-def get_response_model(summary: str, quiz: dict()):
+def get_response_model(summary: str, quiz: list):
     return ResponseModel(success=True, summary=summary, questions=quiz, message=SUCCESS_MESSAGE_TEPLATE)
+
+
+async def get_summary(is_summary: bool, content: str):
+    if not is_summary:
+        return None
+    return await run_summary_with_clova_api(content)
+
+async def get_quiz(prompt: str):
+    return await run_prompt_with_openai_api(prompt)
 
     
 def make_prompt(content: str, quiz_type: str, num_of_quiz: int):
@@ -24,7 +33,7 @@ def make_prompt(content: str, quiz_type: str, num_of_quiz: int):
     return prompt
 
 
-def run_summary_with_clova_api(content: str):
+async def run_summary_with_clova_api(content: str):
     """
     CLOVA Summary API를 이용해 summary를 만든다.
     - Reference: https://www.ncloud.com/product/aiService/clovaSummary
@@ -58,14 +67,13 @@ def run_summary_with_clova_api(content: str):
     summary = json.loads(response.text)["summary"]
     return summary
 
-def run_prompt_with_openai_api(prompt: str):
+async def run_prompt_with_openai_api(prompt: str):
     """
     OpenAI API를 이용해 quiz를 만든다.
     - Reference: https://platform.openai.com/docs/introduction
     - API docs: https://platform.openai.com/docs/overview
     """
     # TODO: (MAY) 생성형 AI 답변 튜닝 포인트 발견 후 개선
-    # TODO: (MAY) 오래 걸리는 응답 개선 포인트 찾기
     client = OpenAI()
     completion = client.chat.completions.create(
         model=GPT_MODEL_NAME,
