@@ -1,9 +1,7 @@
-CLOVA_SUMMARY_API = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize"
-
 GPT_MODEL_NAME = "gpt-3.5-turbo"
+SYSTEM_ROLE_CONTENT = "You are a helpful assistant."
 
 ONE_CHARACTER_BUFFER = 8
-LIMIT_CLOVA_SUMMARY_API_CHARACTER = 2000 - ONE_CHARACTER_BUFFER
 LIMIT_OPENAI_API_CHARACTER = 4096 - ONE_CHARACTER_BUFFER
 
 QUIZ_TYPE_LIST = [

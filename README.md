@@ -14,8 +14,8 @@
 vim app/.env
 
 OPENAI_API_KEY='{openai_api_key}'
-NCP_APIGW_API_KEY_ID='{client_id}'
-NCP_APIGW_API_KEY='{client_secret}'
+# NCP_APIGW_API_KEY_ID='{client_id}'  # fadeout
+# NCP_APIGW_API_KEY='{client_secret}' # fadeout
 ```
 
 ## Run

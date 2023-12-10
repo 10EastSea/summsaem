@@ -1,6 +1,4 @@
 import json
-import os
-import requests
 from openai import OpenAI
 from internal.model import RequestModel, ResponseModel
 from internal.maintenance import *
@@ -17,7 +15,6 @@ def get_response_model(summary: str, quiz: list):
 async def get_summary(summary_prompt: str):
     if summary_prompt is None:
         return None
-    # return await run_summary_with_clova_api(summary_prompt)
     return await run_summary_prompt_with_openai_api(summary_prompt)
 
 async def get_quiz(quiz_prompt: str):
@@ -30,9 +27,6 @@ def make_summary_prompt(is_summary: bool, content: str):
     
     summary_prompt = SUMMARY_PROMPT_TEMPLATE.replace("{CONTENT}", content)
     summary_prompt = summary_prompt[:LIMIT_OPENAI_API_CHARACTER]
-
-    print_log("INPUT", "summary_prompt", summary_prompt)
-    # return content
     return summary_prompt
 
 def make_quiz_prompt(content: str, quiz_type: str, num_of_quiz: int):
@@ -41,46 +35,29 @@ def make_quiz_prompt(content: str, quiz_type: str, num_of_quiz: int):
                                       .replace("{NUM_OF_QUIZ}", str(num_of_quiz)) \
                                       .replace("{CONTENT}", content)
     quiz_prompt = quiz_prompt[:LIMIT_OPENAI_API_CHARACTER]
-
-    print_log("INPUT", "quiz_prompt", quiz_prompt)
     return quiz_prompt
 
 
-async def run_summary_with_clova_api(content: str):
-    """
-    CLOVA Summary API를 이용해 summary를 만든다.
-    - Reference: https://www.ncloud.com/product/aiService/clovaSummary
-    - API docs: https://api.ncloud-docs.com/docs/ai-naver-clovasummary-api
-    """
-    # TODO: 글자 제한 2000자 -> 개선할 수 있는 방법은? (여러번 호출?)
-    content = content[:LIMIT_CLOVA_SUMMARY_API_CHARACTER]
+async def run_summary_prompt_with_openai_api(summary_prompt: str):
+    print_log("INPUT", "summary prompt", summary_prompt)
+    result = await _run_prompt_with_openai_api(summary_prompt)
+    print_log("OUTPUT", "summary result", result)
 
-    # TODO: content 길이에 맞게 summaryCount 결정
-    headers = {
-        "X-NCP-APIGW-API-KEY-ID": os.getenv("NCP_APIGW_API_KEY_ID"),
-        "X-NCP-APIGW-API-KEY": os.getenv("NCP_APIGW_API_KEY"),
-        "Content-Type": "application/json"
-    }
-    data = {
-        "document": {
-            "content": content
-        },
-        "option": {
-            "language": "ko",
-            "model": "general",
-            "tone": 0,
-            "summaryCount": 5
-        }
-    }
-    print_log("INPUT", "summary request.data", data)
-
-    response = requests.post(url=CLOVA_SUMMARY_API, headers=headers, json=data)
-    print_log("OUTPUT", "summary response.text", response.text)
-
-    summary = json.loads(response.text)["summary"]
+    summary = result
     return summary
 
-async def run_prompt_with_openai_api(prompt: str):
+async def run_quiz_prompt_with_openai_api(quiz_prompt: str):
+    print_log("INPUT", "quiz prompt", quiz_prompt)
+    result = await _run_prompt_with_openai_api(quiz_prompt)
+    print_log("OUTPUT", "quiz result", result)
+
+    # TODO: (MAY - High importance) 원하는대로 API 결과 만들어지지 않을 경우 -> 파싱 로직 구현
+    quiz = json.loads(result)
+    quiz = [v for _, v in quiz.items()]
+    return quiz
+
+
+async def _run_prompt_with_openai_api(prompt: str):
     """
     OpenAI API를 이용해 quiz를 만든다.
     - Reference: https://platform.openai.com/docs/introduction
@@ -90,25 +67,9 @@ async def run_prompt_with_openai_api(prompt: str):
     completion = client.chat.completions.create(
         model=GPT_MODEL_NAME,
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": SYSTEM_ROLE_CONTENT},
             {"role": "user", "content": prompt}
         ]
     )
     result = completion.choices[0].message.content
     return result
-
-async def run_summary_prompt_with_openai_api(summary_prompt: str):
-    result = await run_prompt_with_openai_api(summary_prompt)
-    print_log("OUTPUT", "summary result", result)
-
-    summary = result
-    return summary
-
-async def run_quiz_prompt_with_openai_api(quiz_prompt: str):
-    result = await run_prompt_with_openai_api(quiz_prompt)
-    print_log("OUTPUT", "quiz result", result)
-
-    # TODO: (MAY - High importance) 원하는대로 API 결과 만들어지지 않을 경우 -> 파싱 로직 구현
-    quiz = json.loads(result)
-    quiz = [v for _, v in quiz.items()]
-    return quiz
