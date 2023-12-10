@@ -1,8 +1,8 @@
 import json
 from openai import OpenAI
-from internal.model import RequestModel, ResponseModel
-from internal.maintenance import *
-from internal.variables import *
+from app.internal.model import RequestModel, ResponseModel
+from app.internal.maintenance import *
+from app.internal.variables import *
 
 
 def parse_request_model(request: RequestModel):
@@ -51,7 +51,7 @@ async def run_quiz_prompt_with_openai_api(quiz_prompt: str):
     result = await _run_prompt_with_openai_api(quiz_prompt)
     print_log("OUTPUT", "quiz result", result)
 
-    # TODO: (MAY - High importance) 원하는대로 API 결과 만들어지지 않을 경우 -> 파싱 로직 구현
+    # TODO: (MAY) 원하는 양식대로 API 결과 만들어지지 않을 경우 파싱 로직 구현
     quiz = json.loads(result)
     quiz = [v for _, v in quiz.items()]
     return quiz

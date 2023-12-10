@@ -1,7 +1,7 @@
 import asyncio
 from fastapi import APIRouter
-from internal.model import RequestModel, ResponseModel
-from internal.service import *
+from app.internal.model import RequestModel, ResponseModel
+from app.internal.service import *
 
 quiz = APIRouter(prefix="/quiz")
 

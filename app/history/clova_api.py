@@ -1,8 +1,8 @@
 import json
 import os
 import requests
-from internal.maintenance import *
-from internal.variables import *
+from app.internal.maintenance import *
+from app.internal.variables import *
 
 CLOVA_SUMMARY_API = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summarize"
 

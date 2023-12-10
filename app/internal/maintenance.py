@@ -1,7 +1,7 @@
 import datetime
 import traceback
-from internal.model import ResponseModel
-from internal.variables import *
+from app.internal.model import ResponseModel
+from app.internal.variables import *
 
 
 def get_log(io_type: str, target_name: str, content: any):
