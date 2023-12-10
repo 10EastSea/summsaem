@@ -1,0 +1,257 @@
+🔎컴퓨터 시스템
+하드웨어(Hardware)와 소프트웨어(Software)로 구성
+
+주요 소프트웨어: 운영체제와 응용 프로그램
+
+주요 하드웨어: CPU(중앙처리장치), Memory, Storage, Network 등
+
+
+🔎폰노이만 구조
+존 폰 노이만이 제안한 컴퓨터 구조로 오늘날의 컴퓨터 구조이다.
+
+Memory에 프로그램과 데이터를 저장하여 CPU는 Memory에서 이들을 가져와서 연산을 수행한다.
+
+폰노이만 구조 이전의 컴퓨터들은 각각의 프로그램을 실행할 때마다 하드웨어를 변경해주어야 했다.
+
+폰노이만 구조 이후의 컴퓨터들은 단지 소프트웨어만 교체해주면 된다.
+
+
+🔎컴퓨터 주요 구성 요소
+✨CPU(중앙처리장치, Central Processor Unit)
+연산 장치(ALU, Arithmetic Logic Unit)
+산술 연산(Arithmetic Operation)와 논리 연산(Logic Operation) 수행
+
+제어 장치(Control Device)
+입출력 장치, Memory, ALU 동작을 제어
+
+✨Memory
+프로그램과 프로그램 수행에 필요한 데이터를 저장
+
+주기억 장치와 보조기억 장치가 있다.
+
+✨IO Devices(입출력 장치)
+마우스 등의 입력 장치과 모니터 등의 출력 장치를 말한다.
+✨Bus(버스)
+CPU, Memory, IO Devices를 연결해주는 역할을 하는 장치
+
+구성 요소들간의 데이터 송수신에 사용된다.
+
+
+🔎비트(bit)
+컴퓨터는 이진수 체계를 사용한다. 즉 0 또는 1로 숫자, 문자 등을 표현한다.
+
+🔎논리 연산
+OR, A+B
+
+AND, AB
+
+NOT, A'
+
+NAND, (AB)'
+
+NOR, (A+B)'
+
+XOR, A⊕B
+
+
+🔎이진수의 덧셈
+0 + 0, S=0, C=0
+
+0 + 1, S=1, C=0
+
+1 + 0, S=1, C=0
+
+1 + 1, S=0, C=1, 이 경우 Carry 발생
+
+S는 XOR, C는 AND
+
+✨반가산기(half adder)
+두 bit를 덧셈하는 가산기를 의미
+
+XOR와 AND로 구성된 조합논리회로
+
+두 bit를 더해서 합(S)와 올림(Carry)을 출력
+
+이전 단계에서의 올림(Carry)은 고려하지 못함
+
+✨전가산기(full adder)
+반가산기 2개의 조합으로 구성
+
+이전 단계에서의 올림(Carry)을 고려할 수 있다.
+
+두 bit와 carry bit 값을 입력으로 받아서 합(S)와 올림(Carry)을 출력
+
+전가산기 여러개를 연결해서 조합하면 여러 자리의 비트를 계산할 수 있다.
+
+
+🔎오실레이터(Oscillator)
+반복적인 또는 주기적인 시간 변화 신호를 생성하는 전자 회로
+
+0과 1을 반복, 클럭을 만들 수 있다.
+
+CPU는 클럭 주기에 맞춰 명령을 수행한다.
+
+주기(Cycle): 한 사이클에 필요한 시간
+
+frequency: 단위 hertz, 1초에 클럭이 몇 번 발생하는지
+
+
+🔎플립플롭(flip-flop)
+1bit의 상태(0 또는 1)를 저장할 수 있는 회로, 즉 데이터를 저장할 수 있는 조합논리 회로
+
+Memory에 사용된다.
+
+✨RS 플립플롭
+Input: S(Set), R(Reset)
+
+Output: Q, Q'
+
+S=1, R=0, Q=1, Q'=0
+
+S=0, R=1, Q=0, Q'=1
+
+S=0, R=0, Q=Q, Q'=Q', 상태를 유지
+
+S=1, R=1, Disallowd, 논리적 오류 발생, 따라서 둘 다 1인 상태는 피하도록 설계 필요
+
+✨Level-triggered flip-flop
+Input으로 Hold That Bit 추가
+
+Hold That Bit = 1 일 때만 상태 변화를 적용
+
+Hold That Bit는 클럭 신호
+
+✨D-type flip-flop
+R/S 둘 다 1일 경우를 피하도록 설계
+
+Input을 D(Data) 하나로 변경, NOT 게이트로 설계
+
+✨1bit latch
+Level-triggered flip-flop와 D-type flip-flop의 조합
+
+1bit를 일시적으로 저장할 수 있는 메모리
+
+✨8-to-1 selector
+8 bit 데이터에서 특정 bit 값만 출력
+
+3 bit만 있으면 됨, 2의 3승 = 8
+
+✨3-to-8 decoder
+8개의 출력 중, 단 하나만 1
+
+8개 중 단 하나에만 값을 쓸 때 사용
+
+✨8bit latch
+3-to-8 decoder와 3-to-8 decoder로 구성
+
+주소에 데이터를 쓰고 읽을 수 있다.
+
+이 회로가 바로 RAM
+
+클럭=1일 때, 8 bit Data Inputs이 8 bit Data Outputs에 저장
+
+클럭=0일 때, 8 bit Data Outputs 값 유지
+
+
+🔎RAM(Random Access Memory)
+데이터를 저장할 수 있다.
+
+특정 공간에 데이터를 저장하거나 읽기가 가능하다.
+
+순차 접근이 아닌 주소 지정을 통해 특정 공간에 접근할 수 있다.
+
+8 X 1 RAM: 8개 비트 중 1개의 비트를 쓰고 읽을 수 있다.
+
+✨RAM Array
+2개 이상의 RAM으로 구성
+
+8 X 1 RAM을 어떻게 조합하냐에 따라 8 X 2 RAM이 될 수도 있고 16 X 1 RAM이 될 수도 있다.
+
+
+🔎Accumulator(누산기)
+8 bit Adder 와 8 bit Latch로 구성
+
+값을 더하고 더한 값을 저장할 수 있다.
+
+
+🔎메모리 계층 구조
+상위(용량 작음, 속도 빠름, 가격 비쌈)
+
+하위(용량 큼, 속도 느림, 가격 쌈)
+
+레지스터
+
+캐쉬(L1, L2, L3)
+
+RAM
+
+SSD / HDD
+
+🔎Program Counter(PC)
+다음에 실행할 명령어의 주소를 가리키는 레지스터
+
+n-bit Counter: 1씩 증가하는 조합논리회로
+
+
+🔎CPU 기본 구조
+PC(Program Counter): 다음 실행할 명령어 주소를 가리키는 레지스터
+
+IR(Instruction Register): 가장 최근에 인출한 명령어 보관 레지스터
+
+누산기(Accumulator): 데이터 일시 보관 레지스터
+
+MAR(Memory Address Register): CPU가 메모리를 참조하기 위해 데이터 주소를 보관하는 레지스터
+
+MBR(Memory Buffer Register): CPU가 메모리로부터 읽거나, 저장할 데이터 자체를 보관하는 레지스터
+
+
+🔎CPU 명령어 실행 순서
+명령어는 opcode와 operand로 구성
+
+명령어 인출: 실행할 명령어를 메모리에서 읽어 CPU로 가져한다.
+
+명령어 해독: 인출한 명령어에 포함된 데이터를 가져오고 명령어를 해독한다.
+
+명령어 실행
+
+결과 저장
+
+
+🔎파이프라인
+CPU의 성능을 높이는 기법
+
+하나의 작업에 필요한 일을 세부적으로 나누어서 동시에 다른 세부작업을 실행하는 기법
+
+
+🔎RISC vs CISC
+CPU 명령어를 정의하는 2가지 전략
+
+✨RISC(Reduced Instruction Set Computer)
+간단한 명령어를 조합해서 명령 수행
+
+명령어의 포맷과 길이 고정
+
+하나의 사이클로 명령어 실행
+
+전체 명령 시간 예측이 가능
+
+전력 소모가 작음
+
+ARM CPU가 대표적
+
+✨CISC(Complex Instruction Set Computer)
+하나의 명령어 실행으로 가능한 한 많은 작업을 수행
+
+복합 명령어 수행으로 인한 CPU 로직 회로 복잡도 증가
+
+명령어의 포맷이나 길이에 관한 규칙이 없다.
+
+하나 이상의 사이클로 명령어 실행
+
+전체 명령이 얼마나 걸릴지 시간 예측이 어려움
+
+인텔 CPU가 대표적
+
+
+🔎DMA(Direct Memory Access)
+CPU가 명령어를 인출할 때 캐쉬까지는 데이터를 가져오는데 관여하지만 그 이후에 있는 메모리로부터 데이터를 가져올 때는 DMA를 통해 가져와 CPU 활용도를 높인다.

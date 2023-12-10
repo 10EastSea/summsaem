@@ -1,4 +1,7 @@
 import os
+import sys
+
+data_file = sys.argv[1]
 
 
 def read_txt_file(file_path):
@@ -14,7 +17,7 @@ def read_txt_file(file_path):
         return None
 
 
-file_path = os.path.join("../data", "note1.txt")
+file_path = os.path.join("../data", data_file)
 text_content = read_txt_file(file_path)
 result = text_content.replace("\"", "'")
 

@@ -2,6 +2,10 @@ CLOVA_SUMMARY_API = "https://naveropenapi.apigw.ntruss.com/text-summary/v1/summa
 
 GPT_MODEL_NAME = "gpt-3.5-turbo"
 
+ONE_CHARACTER_BUFFER = 8
+LIMIT_CLOVA_SUMMARY_API_CHARACTER = 2000 - ONE_CHARACTER_BUFFER
+LIMIT_OPENAI_API_CHARACTER = 4096 - ONE_CHARACTER_BUFFER
+
 QUIZ_TYPE_LIST = [
     "ox형", "객관형", "약술형", "서술형", "논술형", "면접", "설문지"
 ]
@@ -14,7 +18,11 @@ LOG_TEMPLATE = """
 {CONTENT}
 """
 
-PROMPT_TEMPLATE = """나는 내가 공부한 내용을 바탕으로 문제를 만들고 싶어.
+SUMMARY_PROMPT_TEMPLATE = """아래는 내가 공부한 내용이야. 해당 내용을 요약해줘.
+
+{CONTENT}"""
+
+QUIZ_PROMPT_TEMPLATE = """나는 내가 공부한 내용을 바탕으로 문제를 만들고 싶어.
 
 문제는 유형은 {QUIZ_TYPE} 형식으로 만들어줘.
 총 {NUM_OF_QUIZ}개의 문제를 만들어줘.

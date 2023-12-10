@@ -11,10 +11,11 @@ async def create_quiz(request: RequestModel) -> ResponseModel:
     try:
         content, is_summary, quiz_type, num_of_quiz = parse_request_model(request)
 
-        prompt = make_prompt(content, quiz_type, num_of_quiz)
+        summary_prompt = make_summary_prompt(is_summary, content)
+        quiz_prompt = make_quiz_prompt(content, quiz_type, num_of_quiz)
 
-        get_summary_task = asyncio.create_task(get_summary(is_summary, content))
-        get_quiz_task = asyncio.create_task(get_quiz(prompt))
+        get_summary_task = asyncio.create_task(get_summary(summary_prompt))
+        get_quiz_task = asyncio.create_task(get_quiz(quiz_prompt))
         summary, quiz = await asyncio.gather(get_summary_task, get_quiz_task)
 
         response = get_response_model(summary, quiz)
